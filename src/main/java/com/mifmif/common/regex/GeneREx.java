@@ -30,6 +30,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
+import com.mifmif.common.regex.utils.JavaRegexSupport;
 import com.mifmif.common.regex.utils.yield.Yielderable;
 import dk.brics.automaton.Automaton;
 import dk.brics.automaton.RegExp;
@@ -100,8 +101,10 @@ public class GeneREx implements Iterable<String> {
         finalRegex = replaceCharacterClasses(finalRegex);
         //TODO handle other java specific regex features
         //TODO replace lookarounds with union (a & b)
-        finalRegex = replacePositiveLookaheadFromRegex(finalRegex);
-        finalRegex = replaceNegativeLookaheadFromRegex(finalRegex);
+        finalRegex = JavaRegexSupport.replacePositiveLookaheadFromRegex(finalRegex);
+        finalRegex = JavaRegexSupport.replaceNegativeLookaheadFromRegex(finalRegex);
+        finalRegex = JavaRegexSupport.replacePositiveLookbehindFromRegex(finalRegex);
+        finalRegex = JavaRegexSupport.replaceNegativeLookbehindFromRegex(finalRegex);
         return new RegExp(finalRegex, RegExp.ALL);
     }
 
@@ -113,48 +116,6 @@ public class GeneREx implements Iterable<String> {
         return finalRegex;
     }
 
-    /**
-     * lookahead needs to become a separate regex, which is to be combined with the rest
-     * @param javaRegex
-     * @return
-     */
-    private static String replacePositiveLookaheadFromRegex(final String javaRegex) {
-        return replaceLookaheadFromRegex(javaRegex, "?=", "&");
-    }
-
-    private static String replaceNegativeLookaheadFromRegex(final String javaRegex) {
-        return replaceLookaheadFromRegex(javaRegex, "?!", "&~");
-    }
-
-    private static String replaceLookaheadFromRegex(final String javaRegex, final String lookaheadKey, final String translationKey) {
-        final String GROUP_PRE_LOOKAHEAD = "preLookahead";
-        final String GROUP_LOOKAHEAD = "lookahead";
-        final String GROUP_POST_LOOKAHEAD = "postLookahead";
-        String result = "";
-        String regexForLookahead = "(?<" + GROUP_PRE_LOOKAHEAD + ">.*?)" +
-                "(\\(" + Pattern.quote(lookaheadKey) + "(?<" + GROUP_LOOKAHEAD + ">.*)\\))" +
-                "(?<" + GROUP_POST_LOOKAHEAD + ">.*?)";
-        if (!javaRegex.contains(lookaheadKey)) {
-            result = javaRegex;
-        } else {
-            Pattern lookaheadPattern = Pattern.compile(regexForLookahead);
-            Matcher matcher = lookaheadPattern.matcher(javaRegex);
-            boolean matches = matcher.matches();
-            if (! matches) {
-                throw new IllegalStateException("This regex should have had a lookahead pattern");
-            }
-            String preLookaheadCapture = matcher.group(GROUP_PRE_LOOKAHEAD);
-            String lookaheadCapture = matcher.group(GROUP_LOOKAHEAD);
-            String postLookaheadCapture = matcher.group(GROUP_POST_LOOKAHEAD);
-
-            String regexWithoutLookahead = preLookaheadCapture + postLookaheadCapture;
-            if (regexWithoutLookahead.length() > 0) {
-                result =  preLookaheadCapture + "((" + postLookaheadCapture + ")" +
-                        translationKey + "(" + lookaheadCapture + "))";
-            }
-        }
-        return result;
-    }
 
     /**
      * @param indexOrder {@code (1<= indexOrder <=n)}
