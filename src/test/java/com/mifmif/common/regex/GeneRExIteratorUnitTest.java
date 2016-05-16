@@ -35,7 +35,7 @@ public class GeneRExIteratorUnitTest {
 		// Given
 		State initialState = null;
 		// When
-		GenerexIterator iterator = new GenerexIterator(initialState);
+		GeneRExIterator iterator = new GeneRExIterator(initialState);
 		// Then = NullPointerException
 	}
 
@@ -43,7 +43,7 @@ public class GeneRExIteratorUnitTest {
 	public void shouldNotHaveNextIfInitialStateIsNotAcceptedAndHasNoTransitions() {
 		// Given
 		State initialStateWithoutTranstions = new State();
-		GenerexIterator iterator = new GenerexIterator(initialStateWithoutTranstions);
+		GeneRExIterator iterator = new GeneRExIterator(initialStateWithoutTranstions);
 		// When
 		boolean hasNext = iterator.hasNext();
 		// Then
@@ -55,7 +55,7 @@ public class GeneRExIteratorUnitTest {
 		// Given
 		State acceptedState = new State();
 		acceptedState.setAccept(true);
-		GenerexIterator iterator = new GenerexIterator(acceptedState);
+		GeneRExIterator iterator = new GeneRExIterator(acceptedState);
 		// When / Then
 		boolean hasNext = iterator.hasNext();
 		assertThat(hasNext, is(equalTo(true)));
@@ -69,7 +69,7 @@ public class GeneRExIteratorUnitTest {
 		State initialState = new State();
 		State rejectedState = new State();
 		initialState.addTransition(new Transition('a', rejectedState));
-		GenerexIterator iterator = new GenerexIterator(initialState);
+		GeneRExIterator iterator = new GeneRExIterator(initialState);
 		// When
 		boolean hasNext = iterator.hasNext();
 		// Then
@@ -83,7 +83,7 @@ public class GeneRExIteratorUnitTest {
 		State acceptedState = new State();
 		acceptedState.setAccept(true);
 		initialState.addTransition(new Transition('a', acceptedState));
-		GenerexIterator iterator = new GenerexIterator(initialState);
+		GeneRExIterator iterator = new GeneRExIterator(initialState);
 		// When / Then
 		boolean hasNext = iterator.hasNext();
 		assertThat(hasNext, is(equalTo(true)));
@@ -95,7 +95,7 @@ public class GeneRExIteratorUnitTest {
 	public void shouldFailToObtainNextIfDoesNotHaveNext() {
 		// Given
 		State rejectedInitialState = new State();
-		GenerexIterator iterator = new GenerexIterator(rejectedInitialState);
+		GeneRExIterator iterator = new GeneRExIterator(rejectedInitialState);
 		// When
 		String string = iterator.next();
 		// Then = IllegalStateException
@@ -105,7 +105,7 @@ public class GeneRExIteratorUnitTest {
 	public void shouldReturnSameStringEvenIfHasNextIsCalledMultipleTimes() {
 		// Given
 		State initialState = Automaton.makeChar('a').union(Automaton.makeChar('b')).getInitialState();
-		GenerexIterator iterator = new GenerexIterator(initialState);
+		GeneRExIterator iterator = new GeneRExIterator(initialState);
 		// When / Then
 		boolean hasNext = iterator.hasNext() & iterator.hasNext() & iterator.hasNext();
 		assertThat(hasNext, is(equalTo(true)));
@@ -117,7 +117,7 @@ public class GeneRExIteratorUnitTest {
 	public void shouldReturnFollowingStringsIfNextIsCalledMultipleTimes() {
 		// Given
 		State initialState = Automaton.makeChar('a').union(Automaton.makeChar('b')).getInitialState();
-		GenerexIterator iterator = new GenerexIterator(initialState);
+		GeneRExIterator iterator = new GeneRExIterator(initialState);
 		// When
 		String next = iterator.next();
 		String followingNext = iterator.next();
@@ -130,7 +130,7 @@ public class GeneRExIteratorUnitTest {
 	public void shouldReturnFalseIfNoNextEvenIfHasNextIsCalledMultipleTimes() {
 		// Given
 		State initialState = Automaton.makeEmpty().getInitialState();
-		GenerexIterator iterator = new GenerexIterator(initialState);
+		GeneRExIterator iterator = new GeneRExIterator(initialState);
 		// When
 		boolean hasNext = iterator.hasNext() | iterator.hasNext() | iterator.hasNext();
 		// Then
@@ -143,7 +143,7 @@ public class GeneRExIteratorUnitTest {
 		char min = Character.MIN_VALUE;
 		char max = Character.MAX_VALUE;
 		State initialState = Automaton.makeCharRange(min, max).getInitialState();
-		GenerexIterator iterator = new GenerexIterator(initialState);
+		GeneRExIterator iterator = new GeneRExIterator(initialState);
 		// When / Then
 		for (int character = min; character <= max; character++) {
 			boolean hasNext = iterator.hasNext();
@@ -162,7 +162,7 @@ public class GeneRExIteratorUnitTest {
 		int minLength = 1;
 		int maxLength = 15;
 		State initialState = Automaton.makeChar(character).repeat(minLength, maxLength).getInitialState();
-		GenerexIterator iterator = new GenerexIterator(initialState);
+		GeneRExIterator iterator = new GeneRExIterator(initialState);
 		// When / Then
 		for (int count = minLength; count <= maxLength; count++) {
 			boolean hasNext = iterator.hasNext();
@@ -180,7 +180,7 @@ public class GeneRExIteratorUnitTest {
 		char character = 'a';
 		int max = 1000;
 		State initialState = Automaton.makeChar(character).repeat(1).getInitialState();
-		GenerexIterator iterator = new GenerexIterator(initialState);
+		GeneRExIterator iterator = new GeneRExIterator(initialState);
 		// When / Then
 		for (int count = 1; count <= max; count++) {
 			boolean hasNext = iterator.hasNext();

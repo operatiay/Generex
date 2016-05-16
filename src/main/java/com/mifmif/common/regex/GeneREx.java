@@ -26,8 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 import com.mifmif.common.regex.utils.JavaRegexSupport;
@@ -371,7 +369,7 @@ public class GeneREx implements Iterable<String> {
     }
 
     public Iterator<String> iterator() {
-        return new GenerexIterator(automaton.getInitialState());
+        return new GeneRExIterator(automaton.getInitialState());
     }
 
     /**

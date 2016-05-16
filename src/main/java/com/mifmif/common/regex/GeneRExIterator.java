@@ -31,13 +31,13 @@ import dk.brics.automaton.Transition;
  * @author y.mifrah
  *
  */
-public class GenerexIterator implements Iterator<String> {
+public class GeneRExIterator implements Iterator<String> {
 
 	private final Deque<Step> steps;
 	private final StringBuilder stringBuilder;
 	private boolean found;
 
-	public GenerexIterator(State initialState) {
+	public GeneRExIterator(State initialState) {
 		steps = new ArrayDeque<Step>();
 		int initialCapacity;
 		if (initialState.isAccept() && initialState.getTransitions().isEmpty()) {
