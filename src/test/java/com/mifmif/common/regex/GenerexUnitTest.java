@@ -15,28 +15,27 @@
  */
 package com.mifmif.common.regex;
 
+import dk.brics.automaton.Automaton;
+import org.junit.Test;
+
+import java.util.Iterator;
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-import org.junit.Test;
-
-import com.mifmif.common.regex.util.Iterator;
-
-import dk.brics.automaton.Automaton;
-
 /**
- * Unit test for {@code Generex}.
+ * Unit test for {@code GeneREx}.
  */
-public class GenerexUnitTest {
+public class GeneRExUnitTest {
 
 	@Test(expected = NullPointerException.class)
 	public void shouldFailToCreateAnInstanceWithUndefinedPattern() {
 		// Given
 		String undefinedPattern = null;
 		// When
-		Generex generex = new Generex(undefinedPattern);
+		GeneREx generex = new GeneREx(undefinedPattern);
 		// Then = NullPointerException
 	}
 
@@ -45,7 +44,7 @@ public class GenerexUnitTest {
 		// Given
 		Automaton undefinedAutomaton = null;
 		// When
-		Generex generex = new Generex(undefinedAutomaton);
+		GeneREx generex = new GeneREx(undefinedAutomaton);
 		// Then
 		assertThat(generex, is(notNullValue()));
 	}
@@ -54,7 +53,7 @@ public class GenerexUnitTest {
 	public void shouldReturnTrueWhenQueryingIfInfiniteWithInfinitePattern() {
 		// Given
 		String infinitePattern = "a+";
-		Generex generex = new Generex(infinitePattern);
+		GeneREx generex = new GeneREx(infinitePattern);
 		// When
 		boolean infinite = generex.isInfinite();
 		// Then
@@ -65,7 +64,7 @@ public class GenerexUnitTest {
 	public void shouldReturnFalseWhenQueryingIfInfiniteWithFinitePattern() {
 		// Given
 		String finitePattern = "a{5}";
-		Generex generex = new Generex(finitePattern);
+		GeneREx generex = new GeneREx(finitePattern);
 		// When
 		boolean infinite = generex.isInfinite();
 		// Then
@@ -75,7 +74,7 @@ public class GenerexUnitTest {
 	@Test(expected = Exception.class)
 	public void shouldFailWhenQueryingIfInfiniteWithUndefinedAutomaton() {
 		// Given
-		Generex generex = new Generex((Automaton) null);
+		GeneREx generex = new GeneREx((Automaton) null);
 		// When
 		generex.isInfinite();
 		// Then = Exception
@@ -85,7 +84,7 @@ public class GenerexUnitTest {
 	public void shouldReturnTrueWhenQueryingIfInfiniteWithInfiniteAutomaton() {
 		// Given
 		Automaton infiniteAutomaton = Automaton.makeChar('a').repeat(1); // same as "a+"
-		Generex generex = new Generex(infiniteAutomaton);
+		GeneREx generex = new GeneREx(infiniteAutomaton);
 		// When
 		boolean infinite = generex.isInfinite();
 		// Then
@@ -96,7 +95,7 @@ public class GenerexUnitTest {
 	public void shouldReturnFalseWhenQueryingIfInfiniteWithFiniteAutomaton() {
 		// Given
 		Automaton finiteAutomaton = Automaton.makeChar('a').repeat(5, 5); // same as "a{5}"
-		Generex generex = new Generex(finiteAutomaton);
+		GeneREx generex = new GeneREx(finiteAutomaton);
 		// When
 		boolean infinite = generex.isInfinite();
 		// Then
@@ -106,9 +105,9 @@ public class GenerexUnitTest {
 	@Test
 	public void shouldReturnIteratorOfAPattern() {
 		// Given
-		Generex generex = new Generex("a");
+		GeneREx generex = new GeneREx("a");
 		// When
-		Iterator iterator = generex.iterator();
+		Iterator<String> iterator = generex.iterator();
 		// Then
 		assertThat(iterator, is(notNullValue()));
 	}
@@ -117,9 +116,9 @@ public class GenerexUnitTest {
 	public void shouldReturnIteratorOfAnAutomaton() {
 		// Given
 		Automaton finiteAutomaton = Automaton.makeChar('a');
-		Generex generex = new Generex(finiteAutomaton);
+		GeneREx generex = new GeneREx(finiteAutomaton);
 		// When
-		Iterator iterator = generex.iterator();
+		Iterator<String> iterator = generex.iterator();
 		// Then
 		assertThat(iterator, is(notNullValue()));
 	}
@@ -127,7 +126,7 @@ public class GenerexUnitTest {
 	@Test(expected = NullPointerException.class)
 	public void shouldFailToReturnIteratorOfUndefinedAutomaton() {
 		// Given
-		Generex generex = new Generex((Automaton) null);
+		GeneREx generex = new GeneREx((Automaton) null);
 		// When
 		generex.iterator();
 		// Then = NullPointerException
@@ -138,7 +137,7 @@ public class GenerexUnitTest {
 		// Given
 		String undefinedPattern = null;
 		// When
-		Generex.isValidPattern(undefinedPattern);
+		GeneREx.isValidPattern(undefinedPattern);
 		// Then = NullPointerException
 	}
 
@@ -147,7 +146,7 @@ public class GenerexUnitTest {
 		// Given
 		String validPattern = "[a-z0-9]{1,3}";
 		// When
-		boolean valid = Generex.isValidPattern(validPattern);
+		boolean valid = GeneREx.isValidPattern(validPattern);
 		// Then
 		assertThat(valid, is(equalTo(true)));
 	}
@@ -157,7 +156,7 @@ public class GenerexUnitTest {
 		// Given
 		String validPattern = "\\d{2,3}\\w{1}";
 		// When
-		boolean valid = Generex.isValidPattern(validPattern);
+		boolean valid = GeneREx.isValidPattern(validPattern);
 		// Then
 		assertThat(valid, is(equalTo(true)));
 	}
@@ -167,7 +166,7 @@ public class GenerexUnitTest {
 		// Given
 		String invalidPattern = "a)";
 		// When
-		boolean valid = Generex.isValidPattern(invalidPattern);
+		boolean valid = GeneREx.isValidPattern(invalidPattern);
 		// Then
 		assertThat(valid, is(equalTo(false)));
 	}
@@ -177,7 +176,7 @@ public class GenerexUnitTest {
 		// Given
 		String invalidPattern = "[a-z0-9]{" + ((long) Integer.MAX_VALUE + 1) + "}";
 		// When
-		boolean valid = Generex.isValidPattern(invalidPattern);
+		boolean valid = GeneREx.isValidPattern(invalidPattern);
 		// Then
 		assertThat(valid, is(equalTo(false)));
 	}
@@ -187,7 +186,7 @@ public class GenerexUnitTest {
 		// Given
 		String invalidPattern = createPatternWithTransitions(1000000);
 		// When
-		boolean valid = Generex.isValidPattern(invalidPattern);
+		boolean valid = GeneREx.isValidPattern(invalidPattern);
 		// Then
 		assertThat(valid, is(equalTo(false)));
 	}

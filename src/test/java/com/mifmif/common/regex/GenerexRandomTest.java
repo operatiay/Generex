@@ -14,13 +14,13 @@ import org.junit.runners.Parameterized.Parameters;
  *
  */
 @RunWith(Parameterized.class)
-public class GenerexRandomTest {
+public class GeneRExRandomTest {
 
     private String pattern;
     private int minLength;
     private int maxLength;
     
-    public GenerexRandomTest(String description,
+    public GeneRExRandomTest(String description,
             String patternValue,
             int minLengthValue,
             int maxLengthValue) {
@@ -45,7 +45,7 @@ public class GenerexRandomTest {
     
     @Test
     public void testSimpleRandom() {
-        Generex generex = new Generex(pattern);
+        GeneREx generex = new GeneREx(pattern);
         String result = generex.random();
         Assert.assertTrue(
                 String.format("The string '%s' doesn't match the '%s' pattern", result, pattern),
@@ -53,7 +53,7 @@ public class GenerexRandomTest {
     }
     @Test
     public void testRandomWithMinLength() {
-        Generex generex = new Generex(pattern);
+        GeneREx generex = new GeneREx(pattern);
         String result = generex.random(minLength);
         Assert.assertTrue(
                 String.format("The string '%s' doesn't match the '%s' pattern", result, pattern),
@@ -64,7 +64,7 @@ public class GenerexRandomTest {
     }
     @Test
     public void testRandomWithMaxLength() {
-        Generex generex = new Generex(pattern);
+        GeneREx generex = new GeneREx(pattern);
         String result = generex.random(minLength, maxLength);
         Assert.assertTrue(
                 String.format("The string '%s' doesn't match the '%s' pattern", result, pattern),

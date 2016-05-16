@@ -28,7 +28,7 @@ import dk.brics.automaton.Transition;
 /**
  * Unit test for {@code GenerexIterator}.
  */
-public class GenerexIteratorUnitTest {
+public class GeneRExIteratorUnitTest {
 
 	@Test(expected = NullPointerException.class)
 	public void shouldFailToCreateIteratorWithUndefinedInitialState() {

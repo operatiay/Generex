@@ -19,8 +19,8 @@ package com.mifmif.common.regex;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Iterator;
 
-import com.mifmif.common.regex.util.Iterator;
 
 import dk.brics.automaton.State;
 import dk.brics.automaton.Transition;
@@ -31,7 +31,7 @@ import dk.brics.automaton.Transition;
  * @author y.mifrah
  *
  */
-public class GenerexIterator implements Iterator {
+public class GenerexIterator implements Iterator<String> {
 
 	private final Deque<Step> steps;
 	private final StringBuilder stringBuilder;
@@ -50,6 +50,7 @@ public class GenerexIterator implements Iterator {
 		stringBuilder = new StringBuilder(initialCapacity);
 	}
 
+	@Override
 	public boolean hasNext() {
 		if (found) {
 			return true;
@@ -70,6 +71,7 @@ public class GenerexIterator implements Iterator {
 		}
 	}
 
+	@Override
 	public String next() {
 		if (!found) {
 			nextImpl();
@@ -79,6 +81,11 @@ public class GenerexIterator implements Iterator {
 		}
 		found = false;
 		return stringBuilder.toString();
+	}
+
+	@Override
+	public void remove() {
+		throw new UnsupportedOperationException("Can't remove anything from this iterator");
 	}
 
 	/**
@@ -96,7 +103,7 @@ public class GenerexIterator implements Iterator {
 	 */
 	private static class Step {
 
-		private java.util.Iterator<Transition> iteratorTransitions;
+		private Iterator<Transition> iteratorTransitions;
 		private Transition currentTransition;
 		private char currentChar;
 

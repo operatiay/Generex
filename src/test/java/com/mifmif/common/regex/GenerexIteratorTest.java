@@ -1,7 +1,5 @@
 package com.mifmif.common.regex;
 
-import static org.junit.Assert.*;
-
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -13,17 +11,15 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.mifmif.common.regex.util.Iterator;
-
 /**
  * @author Myk Kolisnyk
  *
  */
 @RunWith(Parameterized.class)
-public class GenerexIteratorTest {
+public class GeneRExIteratorTest {
 
 	private String pattern;
-	private Generex generex;
+	private GeneREx generex;
 
 	@Parameters(name = "Test random: {0}")
 	public static Collection<Object[]> data() {
@@ -35,13 +31,13 @@ public class GenerexIteratorTest {
 				});
 	}
 
-	public GenerexIteratorTest(String description, String patternValue) {
+	public GeneRExIteratorTest(String description, String patternValue) {
 		this.pattern = patternValue;
 	}
 
 	@Before
 	public void setUp() throws Exception {
-		generex = new Generex(pattern);
+		generex = new GeneREx(pattern);
 	}
 
 	@After
@@ -50,9 +46,7 @@ public class GenerexIteratorTest {
 
 	@Test
 	public void testIterateThroughAllGeneratedStrings() {
-		Iterator iterator = generex.iterator();
-		while (iterator.hasNext()) {
-			String result = iterator.next();
+		for (String result : generex) {
 			Assert.assertTrue(String.format("The string '%s' doesn't match the '%s' pattern", result, pattern), result.matches(pattern));
 
 		}
@@ -61,11 +55,9 @@ public class GenerexIteratorTest {
 	@Test
 	public void testIterateShouldReturnTheSameAsGetMatchedStrings() {
 		int count = 1;
-		Iterator iterator = generex.iterator();
-		while (iterator.hasNext()) {
+		for (String aGenerex : generex) {
 			String matchedResult = generex.getMatchedString(count);
-			String result = iterator.next();
-			Assert.assertEquals(String.format("Iteration %d mismatch", count), result, matchedResult);
+			Assert.assertEquals(String.format("Iteration %d mismatch", count), aGenerex, matchedResult);
 			count++;
 		}
 		Assert.assertEquals("Incorrect number of iterated strings,", generex.matchedStringsSize(), count - 1);

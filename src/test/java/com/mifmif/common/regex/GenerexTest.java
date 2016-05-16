@@ -16,10 +16,10 @@ import org.junit.runners.Parameterized.Parameters;
  *
  */
 @RunWith(Parameterized.class)
-public class GenerexTest {
+public class GeneRExTest {
 
 	private String pattern;
-	private Generex generex;
+	private GeneREx generex;
 	private int expectedMatchedStringsSize;
 
 	@Parameters(name = "Test get match: {0}")
@@ -32,14 +32,14 @@ public class GenerexTest {
 				});
 	}
 
-	public GenerexTest(String description, String patternValue, int numberOfStrings) {
+	public GeneRExTest(String description, String patternValue, int numberOfStrings) {
 		this.pattern = patternValue;
 		this.expectedMatchedStringsSize = numberOfStrings;
 	}
 
 	@Before
 	public void setUp() throws Exception {
-		generex = new Generex(pattern);
+		generex = new GeneREx(pattern);
 	}
 
 	@After
